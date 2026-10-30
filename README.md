@@ -32,6 +32,19 @@ registro_fundo_classe.zip               └─ 7 testes de qualidade (portão)
   é R$ 9,05 tri, contra R$ 13,97 tri somando tudo.
 - **Patrimônio negativo** em algumas classes (fundo em dificuldade ou liquidação): dado real, fica como aviso.
 
+## Testes
+
+```
+pip install -r requirements.txt
+python -m pytest tests
+```
+
+27 testes, sem rede e sem o banco real (SQLite em memória, dados fictícios). Cobrem o que já quebrou de verdade:
+
+- **Verificador do resumo** (`test_resumo_ia.py`): lê `9.050,6` e `24.967` como números do Brasil, aceita só o que está nos fatos e cai no resumo fixo quando a IA erra ou está desligada.
+- **Carga incremental** (`test_extrair.py`): janela de meses, arquivo novo, alterado ou apagado, mês ainda não publicado.
+- **Fato diário e portão de qualidade** (`test_qualidade_e_modelos.py`): a cópia exata repetida pela CVM sai, a subclasse não conta em dobro, dois valores diferentes no mesmo dia **barram** o relatório e patrimônio negativo só avisa.
+
 ## Rodar
 
 ```
@@ -43,9 +56,9 @@ python executar.py --forcar     # recarrega tudo
 Ou dê dois cliques em `_rodar.cmd`. Códigos de saída: 0 ok, 1 barrado pela qualidade, 2 erro inesperado.
 
 Para a entrega pelo n8n, copie `segredos.exemplo.json` para `segredos.json` e preencha a URL do
-webhook e a chave. Sem esse arquivo o pipeline roda igual e só pula a entrega. O fluxo do n8n é
+webhook, a chave e o `email_destino` (quem recebe o relatório). Sem esse arquivo o pipeline roda igual e só pula a entrega. O fluxo do n8n é
 gerado por `node n8n/build.mjs` a partir de `n8n/montar_email.js`.
 
 ## Tecnologias
 
-Python 3.13 (requests, sqlite3), SQL (SQLite), n8n (Webhook, Code, Gmail, Data Table), Ollama (Qwen 3 8B, opcional).
+Python 3.13 (requests, pandas, matplotlib, sqlite3, pytest), SQL (SQLite), n8n (Webhook, Code, Gmail, Data Table), Ollama (Qwen 3 8B, opcional).

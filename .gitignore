@@ -8,3 +8,4 @@ segredos.json*
 PAUSADO.md
 n8n/dist/
 __pycache__/
+.pytest_cache/
