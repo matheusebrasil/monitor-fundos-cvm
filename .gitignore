@@ -1,0 +1,10 @@
+dados/
+logs/
+saida/
+# Qualquer variação do arquivo de segredos (inclusive segredos.json.desligado) fica fora; só o exemplo entra.
+segredos.json*
+!segredos.exemplo.json
+# Anotações internas de andamento, não são do projeto.
+PAUSADO.md
+n8n/dist/
+__pycache__/

@@ -1,0 +1,5 @@
+{
+  "n8n_webhook_url": "https://<sua-instancia>.app.n8n.cloud/webhook/monitor-fundos/<token>/relatorio",
+  "n8n_chave": "<chave longa e aleatória, a mesma do nó 'Conferir e montar e-mail'>",
+  "email_destino": "<e-mail que recebe o relatório>"
+}
