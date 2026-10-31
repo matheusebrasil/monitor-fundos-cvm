@@ -22,6 +22,16 @@ import config
 from pipeline import avisar_n8n, carregar, extrair, qualidade, relatorio, resumo_ia, transformar
 
 
+def meses_positivo(valor: str) -> int:
+    try:
+        meses = int(valor)
+    except ValueError:
+        raise argparse.ArgumentTypeError("--meses deve ser um inteiro maior ou igual a 1") from None
+    if meses < 1:
+        raise argparse.ArgumentTypeError("--meses deve ser um inteiro maior ou igual a 1")
+    return meses
+
+
 def configurar_log() -> None:
     config.LOGS.mkdir(parents=True, exist_ok=True)
     arquivo = config.LOGS / f"execucao-{datetime.now():%Y%m%d}.log"
@@ -75,11 +85,15 @@ def executar(meses: int, forcar: bool) -> int:
         con.close()
 
 
-if __name__ == "__main__":
+def montar_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--meses", type=int, default=config.MESES_PADRAO)
+    ap.add_argument("--meses", type=meses_positivo, default=config.MESES_PADRAO)
     ap.add_argument("--forcar", action="store_true")
-    args = ap.parse_args()
+    return ap
+
+
+if __name__ == "__main__":
+    args = montar_parser().parse_args()
     configurar_log()
     try:
         sys.exit(executar(args.meses, args.forcar))

@@ -39,7 +39,7 @@ pip install -r requirements.txt
 python -m pytest tests
 ```
 
-27 testes, sem rede e sem o banco real (SQLite em memória, dados fictícios). Cobrem o que já quebrou de verdade:
+37 testes, sem rede e sem o banco real (SQLite em memória, dados fictícios). Cobrem o que já quebrou de verdade:
 
 - **Verificador do resumo** (`test_resumo_ia.py`): lê `9.050,6` e `24.967` como números do Brasil, aceita só o que está nos fatos e cai no resumo fixo quando a IA erra ou está desligada.
 - **Carga incremental** (`test_extrair.py`): janela de meses, arquivo novo, alterado ou apagado, mês ainda não publicado.
